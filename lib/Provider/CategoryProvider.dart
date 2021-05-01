@@ -28,4 +28,44 @@ class CategoryController extends GetxController {
     _apiService = new APIService();
     _categorylist.value = [];
   }
+
+  createCat(
+    Category category,
+    Function onCallBack,
+  ) async {
+    Category? _category = await _apiService.createCat(category);
+    if (_category != null) {
+      _categorylist.add(_category);
+      onCallBack(true);
+    } else {
+      onCallBack(false);
+    }
+  }
+
+  updateCat(
+    Category category,
+    Function onCallBack,
+  ) async {
+    Category? _category = await _apiService.updateCat(category);
+    if (_category != null) {
+      _categorylist.remove(category);
+      _categorylist.add(_category);
+      onCallBack(true);
+    } else {
+      onCallBack(false);
+    }
+  }
+
+  delCat(
+    Category category,
+    Function onCallBack,
+  ) async {
+    bool _category = await _apiService.delCat(category);
+    if (_category) {
+      _categorylist.remove(category);
+      onCallBack(true);
+    } else {
+      onCallBack(false);
+    }
+  }
 }

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:wooadmin/Provider/CategoryProvider.dart';
+import 'package:wooadmin/Provider/Loading.dart';
+import 'package:wooadmin/Provider/SearchProvider.dart';
 import 'package:wooadmin/models/NavBar.dart';
 import 'package:wooadmin/pages/categories/category_list.dart';
 
@@ -8,6 +12,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final CategoryController c = Get.put(CategoryController());
+  final LoadingController loading = Get.put(LoadingController());
+  final SearchController searchController = Get.put(SearchController());
   List<NavBar> _titlelist = [
     NavBar(title: "DashBoard", icon: Icons.home, color: "#00B8E0"),
     NavBar(title: "Categories", icon: Icons.category, color: "#A50606"),

@@ -1,5 +1,3 @@
-library snippetcoder_utils;
-
 import 'package:flutter/material.dart';
 
 class FormHelper {
@@ -30,6 +28,7 @@ class FormHelper {
     double prefixIconPaddingBottom = 0,
     double containerHeight = 60,
     double containerWidth = 0,
+    bool isMultiline = false,
     Function? onChange,
   }) {
     return Container(
@@ -45,6 +44,7 @@ class FormHelper {
       ),
       child: TextFormField(
         initialValue: initialValue,
+        maxLines: isMultiline ? null : 1,
         key: new Key(initialValue.toString()),
         obscureText: obscureText,
         validator: (val) {
@@ -131,6 +131,9 @@ class FormHelper {
     double prefixIconPaddingRight = 10,
     double prefixIconPaddingTop = 0,
     double prefixIconPaddingBottom = 0,
+    bool isMultiline = false,
+    double containerHeight = 60,
+    double containerWidth = 0,
   }) {
     return Container(
       padding: EdgeInsets.only(left: 10, right: 10),
@@ -156,31 +159,28 @@ class FormHelper {
             ),
           ),
           inputFieldWidget(
-            context,
-            icon,
-            keyName,
-            hintText,
-            onValidate,
-            onSaved,
-            initialValue: initialValue!,
-            obscureText: obscureText,
-            fontSize: fontSize,
-            hintFontSize: hintFontSize,
-            paddingLeft: paddingLeft,
-            paddingRight: paddingRight,
-            paddingTop: paddingTop,
-            paddingBottom: paddingBottom,
-            suffixIcon: suffixIcon,
-            borderRadius: borderRadius,
-            borderColor: borderColor,
-            borderFocusColor: borderFocusColor,
-            showPrefixIcon: showPrefixIcon,
-            prefixIconColor: prefixIconColor,
-            prefixIconPaddingLeft: prefixIconPaddingLeft,
-            prefixIconPaddingRight: prefixIconPaddingRight,
-            prefixIconPaddingTop: prefixIconPaddingTop,
-            prefixIconPaddingBottom: prefixIconPaddingBottom,
-          ),
+              context, icon, keyName, hintText, onValidate, onSaved,
+              initialValue: initialValue!,
+              obscureText: obscureText,
+              fontSize: fontSize,
+              hintFontSize: hintFontSize,
+              paddingLeft: paddingLeft,
+              paddingRight: paddingRight,
+              paddingTop: paddingTop,
+              paddingBottom: paddingBottom,
+              suffixIcon: suffixIcon,
+              borderRadius: borderRadius,
+              borderColor: borderColor,
+              borderFocusColor: borderFocusColor,
+              showPrefixIcon: showPrefixIcon,
+              prefixIconColor: prefixIconColor,
+              prefixIconPaddingLeft: prefixIconPaddingLeft,
+              prefixIconPaddingRight: prefixIconPaddingRight,
+              prefixIconPaddingTop: prefixIconPaddingTop,
+              prefixIconPaddingBottom: prefixIconPaddingBottom,
+              isMultiline: isMultiline,
+              containerHeight: containerHeight,
+              containerWidth: containerWidth),
         ],
       ),
     );

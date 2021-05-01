@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wooadmin/Provider/CategoryProvider.dart';
+import 'package:wooadmin/Provider/Loading.dart';
 import 'package:wooadmin/Provider/SearchProvider.dart';
+import 'package:wooadmin/enums/PageType.dart';
 import 'package:wooadmin/models/Category.dart';
 import 'package:wooadmin/pages/Base_Page.dart';
+import 'package:wooadmin/pages/categories/category_add_edit.dart';
 import 'package:wooadmin/utils/ListHelper.dart';
 import 'package:wooadmin/utils/SearchHelper.dart';
 
@@ -13,8 +16,9 @@ class CategoryList extends BasePage {
 }
 
 class _CategoryListState extends BasePageState<CategoryList> {
-  final CategoryController c = Get.put(CategoryController());
-  final SearchController searchController = Get.put(SearchController());
+  final CategoryController c = Get.find();
+  final LoadingController loading = Get.find();
+  final SearchController searchController = Get.find();
   @override
   void initState() {
     super.initState();
@@ -47,7 +51,9 @@ class _CategoryListState extends BasePageState<CategoryList> {
                       strSearch: val,
                     );
                   },
-                  () {},
+                  () {
+                    Get.to(() => CategoryAddEdit(pageType: PageType.Add));
+                  },
                 ),
               ),
             ),
@@ -65,8 +71,30 @@ class _CategoryListState extends BasePageState<CategoryList> {
                     searchController.sortModel!.sortAscending!,
                     searchController.sortModel!.columnIndex!,
                     value.getCateory,
-                    (Category edit) => {print(edit.id)},
-                    (Category delete) => {print(delete.id)},
+                    (Category edit) => {
+                      Get.to(
+                        () => CategoryAddEdit(
+                          pageType: PageType.Edit,
+                          category: edit,
+                        ),
+                      )
+                    },
+                    (Category delete) async {
+                      loading.setIsApiCall(true);
+                      await c.delCat(
+                        delete,
+                        (val) {
+                          loading.setIsApiCall(false);
+                          if (val) {
+                            Get.snackbar(
+                              "WooAdmin",
+                              "Category Deleted Successfully",
+                              snackPosition: SnackPosition.BOTTOM,
+                            );
+                          }
+                        },
+                      );
+                    },
                     headingRowColor: Theme.of(context).primaryColor,
                     onSort: (columnIndex, columnName, sortAscending) {
                       searchController.setSort(

@@ -1,3 +1,9 @@
+import 'dart:convert';
+
+Category categoryFromjson(String str) => Category.fromJson(
+      json.decode(str),
+    );
+
 List<Category> categoriesFromJson(dynamic str) => List<Category>.from(
       (str).map<Category>(
         (x) => Category.fromJson(x),
@@ -15,10 +21,10 @@ class Category {
 
   Category.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
+    name = json['name'].toString().replaceAll("&amp;", "&");
     parent = json['parent'];
     image = json['image'];
-    description = json['description'];
+    description = json['description'].toString().replaceAll("&amp;", "&");
   }
 
   Map<String, dynamic> toJson() {

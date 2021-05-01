@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:wooadmin/Provider/CategoryProvider.dart';
+import 'package:wooadmin/Provider/Loading.dart';
+import 'package:wooadmin/Provider/SearchProvider.dart';
 import 'package:wooadmin/services/Stroage.dart';
+import 'package:wooadmin/utils/ProgressHUD.dart';
 
 class BasePage extends StatefulWidget {
   @override
@@ -10,10 +15,15 @@ class BasePageState<T extends BasePage> extends State<T> {
   String title = "";
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _appBar(),
-      body: pageUi(),
-    );
+    return GetX<LoadingController>(builder: (loading) {
+      return Scaffold(
+        appBar: _appBar(),
+        body: ProgressHUD(
+          inAsyncCall: loading.getIsApiCall,
+          child: pageUi(),
+        ),
+      );
+    });
   }
 
   AppBar _appBar() {
